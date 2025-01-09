@@ -50,7 +50,7 @@ class ThreeApp {
 
     const geometry = new THREE.PlaneGeometry(2, 2);
     this.uniforms = {
-      uVelocity: { value: this.simulation.fbos.vel_1.texture },
+      uVelocity: { value: this.simulation.fbos.vel_0.texture },
       uText: { value: this.text.texture },
       uBoundary: { value: new THREE.Vector2() },
       uTime: { value: Common.time },

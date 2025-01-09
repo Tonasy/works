@@ -31,7 +31,7 @@ export default class Poisson extends ShaderPass {
     }
 
     update() {
-        const ITR = 36; // 反復回数
+        const ITR = 10; // 反復回数
         let p_in, p_out;
 
         for(let i = 0; i < ITR; i++) {
