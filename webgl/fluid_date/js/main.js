@@ -1,5 +1,6 @@
 import * as THREE from '../../lib/three.module.js';
 import Common from './modules/Common.js';
+import ParamGUI from './modules/ParamGUI.js';
 import ShaderFiles from './modules/ShaderFiles.js';
 import Simulation from './modules/Simulation.js';
 import Text from './modules/Text.js';
@@ -29,6 +30,12 @@ class ThreeApp {
   }
 
   async init() {
+    // GUI 設定
+    this.options = {
+      psy: false
+    };
+    this.paramGUI = new ParamGUI(this.options);
+
     // シェーダソースの読み込み
     await ShaderFiles.load();
 
@@ -39,7 +46,7 @@ class ThreeApp {
     this.text = new Text();
     await document.fonts.ready; // フォントの読み込みを待つ
     this.text.init();
-    
+
     // シーン
     this.scene = new THREE.Scene();
 
@@ -57,6 +64,7 @@ class ThreeApp {
       uBoundary: { value: new THREE.Vector2() },
       uTime: { value: Common.time },
       uResolution: { value: new THREE.Vector2(Common.width, Common.height) },
+      uPsy: { value: this.options.psy }
     };
     const material = new THREE.ShaderMaterial({
       vertexShader: this.mainVs,
@@ -92,8 +100,9 @@ class ThreeApp {
     // 共通処理の更新
     Common.update();
 
-    // 時間の更新
+    // ユニフォーム変数の更新
     this.uniforms.uTime.value = Common.time;
+    this.uniforms.uPsy.value = this.options.psy;
 
     // シミュレーションの更新
     this.simulation.update();

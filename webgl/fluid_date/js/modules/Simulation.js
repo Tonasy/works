@@ -1,6 +1,5 @@
 import * as THREE from '../../../lib/three.module.js';
 import Common from './Common.js';
-import ParamGUI from './ParamGUI.js';
 import ExternalForce from './ExternalForce.js';
 import Advection from './Advection.js';
 import Divergence from './Divergence.js';
@@ -35,16 +34,11 @@ export default class Simulation {
       text: null
     };
 
-    // GUIパラメータの初期値を設定
-    this.options = {
-      resolution: 0.5,
-      mouse_force: 60,
-      cursor_size: 20,
-      dt: 0.01,
-    };
-
-    // GUI
-    // this.paramGUI = new ParamGUI(this.options);
+    // パラメータ
+    this.dt = 0.01;
+    this.mouse_force = 60;
+    this.cursor_size = 20;
+    this.resolution = 0.5;
 
     this.init();
   }
@@ -69,7 +63,7 @@ export default class Simulation {
 
   calcSize() {
     // Resolution
-    const resolution = this.options.resolution;
+    const resolution = this.resolution;
     const width = Math.round(Common.width * resolution);
     const height = Math.round(Common.height * resolution);
 
@@ -86,7 +80,7 @@ export default class Simulation {
     this.advection = new Advection({
       cellScale: this.cellScale,
       fboSize: this.fboSize,
-      dt: this.options.dt,
+      dt: this.dt,
       src: this.fbos.vel_0,
       dest: this.fbos.vel_1
     });
@@ -94,7 +88,7 @@ export default class Simulation {
     // - 外力項 -----------------------
     this.externalForce = new ExternalForce({
       cellScale: this.cellScale,
-      cursor_size: this.options.cursor_size,
+      cursor_size: this.cursor_size,
       dest: this.fbos.vel_1
     });
 
@@ -105,7 +99,7 @@ export default class Simulation {
       boundary: this.boundary,
       src: this.fbos.vel_1,
       dest: this.fbos.div,
-      dt: this.options.dt,
+      dt: this.dt,
       time: Common.time
     });
 
@@ -125,7 +119,7 @@ export default class Simulation {
       src_p: this.fbos.pressure_0,
       src_v: this.fbos.vel_viscosity_0,
       dest: this.fbos.vel_0,
-      dt: this.options.dt
+      dt: this.dt
     });
   }
 
@@ -143,12 +137,12 @@ export default class Simulation {
     this.boundary.set(0, 0);
 
     // - 移流項の計算 -----------------------
-    this.advection.update(this.options.dt);
+    this.advection.update(this.dt);
 
     // - 外力項の計算 -----------------------
     this.externalForce.update({
-      cursor_size: this.options.cursor_size,
-      mouse_force: this.options.mouse_force,
+      cursor_size: this.cursor_size,
+      mouse_force: this.mouse_force,
       cellScale: this.cellScale
     });
 
@@ -163,6 +157,6 @@ export default class Simulation {
     const pressure = this.poisson.update();
 
     // 圧力場の補正
-    this.pressure.update({ vel, pressure }); 
+    this.pressure.update({ vel, pressure });
   }
 }
