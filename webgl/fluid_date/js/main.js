@@ -37,6 +37,8 @@ class ThreeApp {
 
     // テキストのサンプリング
     this.text = new Text();
+    await document.fonts.ready; // フォントの読み込みを待つ
+    this.text.init();
     
     // シーン
     this.scene = new THREE.Scene();

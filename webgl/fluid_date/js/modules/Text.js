@@ -5,7 +5,6 @@ export default class Text {
   constructor() {
     // テクスチャを初期化
     this.texture = null;
-    this.init();
   }
 
   init() {
