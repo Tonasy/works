@@ -3,7 +3,6 @@ import Common from './Common.js';
 import ParamGUI from './ParamGUI.js';
 import ExternalForce from './ExternalForce.js';
 import Advection from './Advection.js';
-import Viscosity from './Viscosity.js';
 import Divergence from './Divergence.js';
 import Poisson from './Poisson.js';
 import Pressure from './Pressure.js';
@@ -42,7 +41,6 @@ export default class Simulation {
       mouse_force: 60,
       cursor_size: 20,
       dt: 0.01,
-      viscosity: 1.0
     };
 
     // GUI
@@ -100,23 +98,12 @@ export default class Simulation {
       dest: this.fbos.vel_1
     });
 
-    // - 粘性項 -----------------------
-    this.viscosity = new Viscosity({
-      cellScale: this.cellScale,
-      boundary: this.boundary,
-      viscosity: this.options.viscosity,
-      src: this.fbos.vel_1,
-      dest: this.fbos.vel_viscosity_1,
-      dest_: this.fbos.vel_viscosity_0,
-      dt: this.options.dt
-    });
-
     // - 圧力項 -----------------------
     // 発散
     this.divergence = new Divergence({
       cellScale: this.cellScale,
       boundary: this.boundary,
-      src: this.fbos.vel_viscosity_0,
+      src: this.fbos.vel_1,
       dest: this.fbos.div,
       dt: this.options.dt,
       time: Common.time
@@ -167,9 +154,6 @@ export default class Simulation {
 
     // 外力項、移流項の計算結果を変数に保存
     let vel = this.fbos.vel_1;
-
-    // - 粘性項の計算 -----------------------
-    vel = this.viscosity.update({ viscosity: this.options.viscosity, dt: this.options.dt });
 
     // - 圧力項の計算 -----------------------
     // 発散の計算

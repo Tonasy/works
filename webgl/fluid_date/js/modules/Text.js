@@ -20,8 +20,11 @@ export default class Text {
     // 2D コンテキストの取得
     const ctx = canvas.getContext('2d');
 
+    // テキストの取得（日付）
+    const today = this.getDateInfo();
+
     // フォント設定
-    const fontSize = Math.min(Common.width, Common.height) * 0.35;
+    const fontSize = Common.width / 8;
     ctx.font = `${fontSize}px Lobster, serif`;
     // ctx.fillStyle = '#ffffff';
     ctx.fillStyle = '#eecc55';
@@ -32,8 +35,7 @@ export default class Text {
     ctx.shadowOffsetX = 1;
     ctx.shadowOffsetY = 1;
 
-    // テキストの描画(現在時刻を表示)
-    const today = this.getDateInfo();
+    // テキストの描画
     ctx.fillText(today, Common.width / 2, Common.height / 2);
 
     // テクスチャの生成
@@ -42,6 +44,9 @@ export default class Text {
   }
 
   resize() {
+    if (this.texture) {
+      this.texture.dispose();
+    }
     this.createTextTexture();
   }
 

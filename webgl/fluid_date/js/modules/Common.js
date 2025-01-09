@@ -1,6 +1,4 @@
 import * as THREE from '../../../lib/three.module.js';
-import ShaderFiles from './ShaderFiles.js';
-
 
 class Common {
   constructor() {
@@ -52,6 +50,9 @@ init(wrapper) {
     // 時間の更新
     this.delta = this.clock.getDelta();
     this.time += this.delta;
+
+    // リサイズ
+    this.resize();
   }
 }
 

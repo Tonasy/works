@@ -17,10 +17,9 @@ class ShaderFiles {
         this.loadShader('./shaders/main.frag'),
         this.loadShader('./shaders/externalForce.frag'),
         this.loadShader('./shaders/advection.frag'),
-        this.loadShader('./shaders/viscosity.frag'),
         this.loadShader('./shaders/divergence.frag'),
         this.loadShader('./shaders/poisson.frag'),
-        this.loadShader('./shaders/pressure.frag'),
+        this.loadShader('./shaders/pressure.frag')
       ]);
 
       this.shaders = {
@@ -30,10 +29,9 @@ class ShaderFiles {
         mainFS: shaders[3],
         externalForceFS: shaders[4],
         advectionFS: shaders[5],
-        viscosityFS: shaders[6],
-        divergenceFS: shaders[7],
-        poissonFS: shaders[8],
-        pressureFS: shaders[9],
+        divergenceFS: shaders[6],
+        poissonFS: shaders[7],
+        pressureFS: shaders[8]
       };
 
       console.log('All shaders loaded successfully.');

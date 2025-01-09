@@ -5,7 +5,7 @@ import Simulation from './modules/Simulation.js';
 import Text from './modules/Text.js';
 
 window.addEventListener(
-  'DOMContentLoaded',
+  'load',
   () => {
     const wrapper = document.querySelector('#webgl');
     const app = new ThreeApp(wrapper);
@@ -36,8 +36,8 @@ class ThreeApp {
     this.simulation = new Simulation();
 
     // テキストのサンプリング
-    this.text = await new Text();
-
+    this.text = new Text();
+    
     // シーン
     this.scene = new THREE.Scene();
 

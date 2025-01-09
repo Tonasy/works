@@ -59,16 +59,5 @@ export default class ParamGUI {
     }).on('change', (e) => {
       this.params.dt = e.value;
     });
-
-    // 粘度
-    f1.addBlade({
-      view: 'slider',
-      label: 'viscosity',
-      min: 0,
-      max: 1000,
-      value: this.params.viscosity
-    }).on('change', (e) => {
-      this.params.viscosity = e.value;
-    });
   }
 }
